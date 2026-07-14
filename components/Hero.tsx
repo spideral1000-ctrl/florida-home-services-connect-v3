@@ -22,7 +22,7 @@ export default function Hero() {
           <div className="mb-10 flex flex-wrap gap-4">
 
             <a
-              href="#estimate"
+              href="/#estimate"
               className="rounded-xl bg-orange-500 px-8 py-4 font-bold text-white transition hover:bg-orange-600"
             >
               Get FREE Estimates

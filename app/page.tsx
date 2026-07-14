@@ -2,6 +2,7 @@ import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 import Services from "@/components/Services";
 import WhyChooseUs from "@/components/WhyChooseUs";
+import EstimateForm from "@/components/EstimateForm";
 
 export default function Home() {
   return (
@@ -10,6 +11,7 @@ export default function Home() {
       <Hero />
       <Services />
       <WhyChooseUs />
+      <EstimateForm />
     </main>
   );
 }

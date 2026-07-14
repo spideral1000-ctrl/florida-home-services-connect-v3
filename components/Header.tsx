@@ -39,7 +39,7 @@ export default function Header() {
         </nav>
 
         <Link
-          href="#estimate"
+          href="/#estimate"
           className="rounded-xl bg-orange-500 px-5 py-3 font-semibold text-white hover:bg-orange-600"
         >
           Get Free Estimates

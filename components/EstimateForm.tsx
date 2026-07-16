@@ -18,6 +18,7 @@ const initialFormData = {
 export default function EstimateForm() {
   const [formData, setFormData] = useState(initialFormData);
   const [submitMessage, setSubmitMessage] = useState("");
+const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
@@ -32,26 +33,54 @@ export default function EstimateForm() {
     }
   };
 
-  const handleSubmit = (e: FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = async (e: FormEvent) => {
+  e.preventDefault();
 
-    if (
-      !formData.firstName ||
-      !formData.lastName ||
-      !formData.email ||
-      !formData.phone ||
-      !formData.service
-    ) {
-      setSubmitMessage("Please complete all required fields.");
+  if (
+    !formData.firstName ||
+    !formData.lastName ||
+    !formData.email ||
+    !formData.phone ||
+    !formData.service
+  ) {
+    setSubmitMessage("Please complete all required fields.");
+    return;
+  }
+
+  try {
+    setIsSubmitting(true);
+    setSubmitMessage("");
+
+    const response = await fetch("/api/estimate", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formData),
+    });
+
+    const result = await response.json();
+
+    if (!response.ok) {
+      setSubmitMessage(
+        result.message || "Unable to submit your estimate request."
+      );
       return;
     }
 
-    setSubmitMessage(
-      "Thank you! Your estimate request has been received. We will connect you with trusted Florida contractors."
-    );
+    setSubmitMessage(result.message);
 
     setFormData(initialFormData);
-  };
+  } catch (error) {
+    console.error(error);
+
+    setSubmitMessage(
+      "An unexpected error occurred. Please try again."
+    );
+  } finally {
+    setIsSubmitting(false);
+  }
+};
 
   return (
     <section

@@ -53,16 +53,16 @@ export async function POST(request: Request) {
       ]);
 
     if (error) {
-      console.error(error);
+  console.error("SUPABASE ERROR:", error);
 
-      return NextResponse.json(
-        {
-          success: false,
-          message: "Unable to save your estimate request.",
-        },
-        { status: 500 }
-      );
-    }
+  return NextResponse.json(
+    {
+      success: false,
+      message: error.message,
+    },
+    { status: 500 }
+  );
+}
 
     return NextResponse.json({
       success: true,

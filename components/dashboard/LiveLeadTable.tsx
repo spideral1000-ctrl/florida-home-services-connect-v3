@@ -4,6 +4,16 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { supabase } from "../../app/lib/supabase";
 
+const STATUS_OPTIONS = [
+  "New",
+  "Contacted",
+  "Appointment Scheduled",
+  "Estimate Scheduled",
+  "Estimate Sent",
+  "Sold",
+  "Closed",
+];
+
 type Lead = {
   id: number;
   first_name: string;
@@ -18,6 +28,7 @@ type Lead = {
 export default function LiveLeadTable() {
   const [leads, setLeads] = useState<Lead[]>([]);
   const [loading, setLoading] = useState(true);
+  const [updatingId, setUpdatingId] = useState<number | null>(null);
 
   async function loadLeads() {
     setLoading(true);
@@ -37,6 +48,24 @@ export default function LiveLeadTable() {
     setLoading(false);
   }
 
+  async function updateStatus(id: number, status: string) {
+    setUpdatingId(id);
+
+    const { error } = await supabase
+      .from("homeowner_leads")
+      .update({ status })
+      .eq("id", id);
+
+    if (error) {
+      console.error(error);
+      alert("Unable to update status.");
+    } else {
+      await loadLeads();
+    }
+
+    setUpdatingId(null);
+  }
+
   useEffect(() => {
     loadLeads();
   }, []);
@@ -44,15 +73,20 @@ export default function LiveLeadTable() {
   if (loading) {
     return (
       <section className="bg-white rounded-2xl shadow-lg p-6">
-        <p className="text-gray-600">Loading homeowner leads...</p>
+        <p className="text-gray-600">
+          Loading homeowner leads...
+        </p>
       </section>
     );
   }
 
   return (
     <section className="bg-white rounded-2xl shadow-lg p-6">
+
       <div className="flex items-center justify-between mb-6">
+
         <div>
+
           <h2 className="text-2xl font-bold">
             Live Homeowner Leads
           </h2>
@@ -60,6 +94,7 @@ export default function LiveLeadTable() {
           <p className="text-gray-500">
             Connected to Supabase
           </p>
+
         </div>
 
         <button
@@ -68,39 +103,56 @@ export default function LiveLeadTable() {
         >
           Refresh
         </button>
+
       </div>
 
       <div className="overflow-x-auto">
+
         <table className="w-full">
 
           <thead className="bg-gray-100">
+
             <tr>
+
               <th className="text-left p-4">Homeowner</th>
+
               <th className="text-left p-4">Service</th>
+
               <th className="text-left p-4">City</th>
+
               <th className="text-left p-4">Phone</th>
+
               <th className="text-left p-4">Status</th>
+
               <th className="text-left p-4">Action</th>
+
             </tr>
+
           </thead>
 
           <tbody>
+
             {leads.length === 0 ? (
+
               <tr>
+
                 <td
                   colSpan={6}
                   className="p-6 text-center text-gray-500"
                 >
                   No homeowner leads found.
                 </td>
+
               </tr>
+
             ) : (
+
               leads.map((lead) => (
                 <tr
                   key={lead.id}
-                  className="border-b hover:bg-blue-50"
+                  className="border-b hover:bg-gray-50"
                 >
-                  <td className="p-4 font-semibold">
+                  <td className="p-4 font-medium">
                     {lead.first_name} {lead.last_name}
                   </td>
 
@@ -117,15 +169,29 @@ export default function LiveLeadTable() {
                   </td>
 
                   <td className="p-4">
-                    <span className="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm">
-                      {lead.status}
-                    </span>
+                    <select
+                      value={lead.status || "New"}
+                      disabled={updatingId === lead.id}
+                      onChange={(e) =>
+                        updateStatus(lead.id, e.target.value)
+                      }
+                      className="border rounded-lg px-3 py-2 bg-white"
+                    >
+                      {STATUS_OPTIONS.map((status) => (
+                        <option
+                          key={status}
+                          value={status}
+                        >
+                          {status}
+                        </option>
+                      ))}
+                    </select>
                   </td>
 
                   <td className="p-4">
                     <Link
                       href={`/dashboard/leads/${lead.id}`}
-                      className="text-blue-600 hover:underline font-medium"
+                      className="text-blue-600 hover:underline"
                     >
                       View
                     </Link>
@@ -134,9 +200,8 @@ export default function LiveLeadTable() {
               ))
             )}
           </tbody>
-
         </table>
       </div>
     </section>
   );
-}
+}                

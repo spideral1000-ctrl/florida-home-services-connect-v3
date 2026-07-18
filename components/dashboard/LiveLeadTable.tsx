@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import { supabase } from "../../app/lib/supabase";
 
@@ -79,6 +80,7 @@ export default function LiveLeadTable() {
               <th className="text-left p-4">City</th>
               <th className="text-left p-4">Phone</th>
               <th className="text-left p-4">Status</th>
+              <th className="text-left p-4">Action</th>
             </tr>
           </thead>
 
@@ -86,7 +88,7 @@ export default function LiveLeadTable() {
             {leads.length === 0 ? (
               <tr>
                 <td
-                  colSpan={5}
+                  colSpan={6}
                   className="p-6 text-center text-gray-500"
                 >
                   No homeowner leads found.
@@ -118,6 +120,15 @@ export default function LiveLeadTable() {
                     <span className="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm">
                       {lead.status}
                     </span>
+                  </td>
+
+                  <td className="p-4">
+                    <Link
+                      href={`/dashboard/leads/${lead.id}`}
+                      className="text-blue-600 hover:underline font-medium"
+                    >
+                      View
+                    </Link>
                   </td>
                 </tr>
               ))

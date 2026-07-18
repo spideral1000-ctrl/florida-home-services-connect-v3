@@ -1,44 +1,45 @@
+import Image from "next/image";
+import Link from "next/link";
+
 export default function Hero() {
   return (
-    <section className="bg-gradient-to-b from-orange-50 to-white">
-      <div className="mx-auto grid max-w-7xl items-center gap-12 px-6 py-24 lg:grid-cols-2">
+    <section className="bg-gradient-to-br from-sky-50 via-white to-orange-50">
+      <div className="mx-auto max-w-7xl px-6 py-20 lg:flex lg:items-center lg:gap-16">
 
         {/* Left Side */}
-        <div>
+        <div className="lg:w-1/2">
 
-          <p className="mb-4 text-sm font-bold uppercase tracking-widest text-orange-600">
-            Florida's Trusted Contractor Network
-          </p>
+          <span className="inline-flex items-center rounded-full bg-orange-100 px-4 py-2 text-sm font-semibold text-orange-700">
+            Florida&apos;s Trusted Contractor Network
+          </span>
 
-          <h1 className="mb-6 text-5xl font-extrabold leading-tight text-slate-900 lg:text-6xl">
+          <h1 className="mt-6 text-5xl font-extrabold leading-tight text-slate-900 lg:text-6xl">
             Find Trusted Home Service Professionals Across Florida
           </h1>
 
-          <p className="mb-8 max-w-xl text-xl leading-8 text-slate-600">
-            Quickly connect with trusted local contractors for your next home
-            improvement project.
+          <p className="mt-6 text-xl leading-8 text-slate-600">
+            Connect with qualified contractors for Roofing, HVAC, Electrical,
+            Plumbing, Solar, and Remodeling. Compare multiple estimates from
+            trusted local professionals—all at no cost.
           </p>
 
-          <div className="mb-10 flex flex-wrap gap-4">
-
-            <a
-              href="/#estimate"
-              className="rounded-xl bg-orange-500 px-8 py-4 font-bold text-white transition hover:bg-orange-600"
+          <div className="mt-10 flex flex-wrap gap-4">
+            <Link
+              href="#estimate"
+              className="rounded-xl bg-orange-500 px-8 py-4 text-lg font-semibold text-white shadow-lg transition hover:bg-orange-600"
             >
               Get FREE Estimates
-            </a>
+            </Link>
 
-            <a
+            <Link
               href="#contractors"
-              className="rounded-xl border-2 border-orange-500 px-8 py-4 font-bold text-orange-600 transition hover:bg-orange-50"
+              className="rounded-xl border-2 border-slate-300 px-8 py-4 text-lg font-semibold text-slate-800 transition hover:border-orange-500 hover:text-orange-600"
             >
               Join Contractor Network
-            </a>
-
+            </Link>
           </div>
 
-          <div className="flex flex-wrap gap-3">
-
+          <div className="mt-10 flex flex-wrap gap-3">
             {[
               "Roofing",
               "HVAC",
@@ -49,40 +50,27 @@ export default function Hero() {
             ].map((service) => (
               <span
                 key={service}
-                className="rounded-full bg-white px-4 py-2 text-sm font-semibold shadow"
+                className="rounded-full bg-white px-4 py-2 text-sm font-medium text-slate-700 shadow"
               >
                 {service}
               </span>
             ))}
-
           </div>
 
         </div>
 
-        {/* Right Side */}
-
-        <div className="flex items-center justify-center">
-
-          <div className="flex h-[450px] w-full max-w-md items-center justify-center rounded-3xl border-2 border-dashed border-orange-300 bg-orange-100">
-
-            <div className="text-center">
-
-              <div className="mb-4 text-6xl">
-                🏡
-              </div>
-
-              <h3 className="text-2xl font-bold text-slate-800">
-                Florida Homeowners
-              </h3>
-
-              <p className="mt-4 text-slate-600">
-                Hero image will be added here.
-              </p>
-
-            </div>
-
+        {/* Right Side Image */}
+        <div className="mt-14 lg:mt-0 lg:w-1/2">
+          <div className="overflow-hidden rounded-3xl shadow-2xl">
+            <Image
+              src="/images/hero-homepage.png"
+              alt="Beautiful Florida waterfront home"
+              width={900}
+              height={650}
+              priority
+              className="h-auto w-full object-cover"
+            />
           </div>
-
         </div>
 
       </div>

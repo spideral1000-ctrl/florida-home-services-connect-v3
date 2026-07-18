@@ -3,6 +3,8 @@ import Hero from "@/components/Hero";
 import Services from "@/components/Services";
 import WhyChooseUs from "@/components/WhyChooseUs";
 import EstimateForm from "@/components/EstimateForm";
+import CallToAction from "@/components/CallToAction";
+import Footer from "@/components/Footer";
 
 export default function Home() {
   return (
@@ -12,6 +14,8 @@ export default function Home() {
       <Services />
       <WhyChooseUs />
       <EstimateForm />
+      <CallToAction />
+      <Footer />
     </main>
   );
 }
